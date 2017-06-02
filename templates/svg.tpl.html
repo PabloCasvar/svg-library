@@ -5,7 +5,11 @@
     style="border: 1px black solid">
     <!-- X-axis -->
     <path d="M0 {{ctrl.originY}} H {{ctrl.width}} " fill="transparent" stroke="black"></path>
-    <path d="M {{ctrl.originX}} 0 V1 {{ctrl.height}} " fill="transparent" stroke="black"></path>
+    <path d="M {{ctrl.originX}} 0 V0 {{ctrl.height}} " fill="transparent" stroke="black"></path>
+
+    <!--plot-->
+
+    <path d="{{ctrl.stringPath}}" fill="transparent" stroke="black"></path>
 
     <circle
         ng-attr-cx = "{{ctrl.originX}}"
@@ -17,12 +21,16 @@
 </svg>
 
 <form>
-    <label for="">x min</label>
-    <input type="text" ng-model="ctrl.minX" ng-change="ctrl.setOrigin()"><br>
-    <label for="">x max</label>
-    <input type="text" ng-model="ctrl.maxX" ng-change="ctrl.setOrigin()"><br><br>
-    <label for="">y min</label>
-    <input type="text" ng-model="ctrl.minY" ng-change="ctrl.setOrigin()"><br>
-    <label for="">y max</label>
-    <input type="text" ng-model="ctrl.maxY" ng-change="ctrl.setOrigin()"><br>
+    <label for="">X min</label>
+    <input type="text" ng-model="ctrl.minX" ng-change="ctrl.setOrigin(); ctrl.evaluateFunction(); ctrl.drawPath()"><br>
+    <label for="">X max</label>
+    <input type="text" ng-model="ctrl.maxX" ng-change="ctrl.setOrigin(); ctrl.evaluateFunction(); ctrl.drawPath()"><br><br>
+    <label for="">Y min</label>
+    <input type="text" ng-model="ctrl.minY" ng-change="ctrl.setOrigin(); ctrl.evaluateFunction(); ctrl.drawPath()"><br>
+    <label for="">Y max</label>
+    <input type="text" ng-model="ctrl.maxY" ng-change="ctrl.setOrigin(); ctrl.evaluateFunction(); ctrl.drawPath()"><br><br>
+    <label for="">Resolution</label>
+    <input type="text" ng-model="ctrl.resolution" ng-change="ctrl.evaluateFunction(); ctrl.drawPath()"><br>
+    <label for="">Function</label>
+    <input type="text" ng-model="ctrl.functionDef" ng-change="ctrl.evaluateFunction(); ctrl.drawPath()"><br>
 </form>

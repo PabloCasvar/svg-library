@@ -9,7 +9,9 @@ app.component('plotSvg',{
         minX: "@",
         maxX: "@",
         minY: "@",
-        maxY: "@"
+        maxY: "@",
+        resolution: "@",
+        functionDef: "@"
     },
     controllerAs: 'ctrl',
     controller: function($scope){
@@ -21,8 +23,12 @@ app.component('plotSvg',{
            if(!this.maxX) this.maxX = 5;
            if(!this.minY) this.minY = -5;
            if(!this.maxY) this.maxY = 5;
+           if(!this.resolution) this.resolution = 100;
+           if(!this.functionDef) this.functionDef = "x";
            
            this.setOrigin();
+           this.evaluateFunction();
+           this.drawPath();
         };
 
         this.setDeltaX = function(){
@@ -56,9 +62,7 @@ app.component('plotSvg',{
             }else if(max <= 0){
                 origin = this.height-max*this.dy;
             }
-            console.log(origin);
             this.originY = this.transCoordY(origin);
-            console.log(this.originY);
         };
 
         this.setOrigin = function(){
@@ -69,8 +73,46 @@ app.component('plotSvg',{
         };
         //todo: implement matrix transformations
         this.transCoordY = function(y){
-            return this.height - y;
+            return parseInt(this.height - y);
         };
+        this.evaluateFunction = function(){
+            var stringFunc = "return " + this.functionDef + ";"
+            var functionX = Function("x", stringFunc);
+            var delta = (this.maxX - this.minY)/(this.resolution-1);
+            //"real" values from evaluate function
+            var xFun = [];
+            var yFun = [];
+            //values mapped to svg pixels
+            this.xVal = [];
+            this.yVal = [];
+            //transformation parameters
+            var m_x = this.width/(this.maxX-this.minX);
+            var b_x = -1*m_x*this.minX;
+            var m_y = this.height/(this.maxY-this.minY);
+            var b_y = -1*m_y*this.minY;
+
+            for(var i=0; i<this.resolution; i++){
+                xFun[i] = parseInt(this.minX + parseInt(i*delta));
+                yFun[i] = parseInt(functionX(xFun[i]));
+                
+                this.xVal[i] = parseInt(m_x*xFun[i] + b_x); 
+                this.yVal[i] = this.transCoordY(m_y*yFun[i] + b_y);
+            }
+            console.log(xFun);
+            console.log(this.xVal);
+            console.log(yFun);
+            console.log(this.yVal);
+        };
+        this.drawPath = function(){
+            this.stringPath = [];
+            var path = "M " + this.xVal[0] + " " + this.yVal[0] + " ";
+            for(var i=1; i<this.xVal.length; i++){
+                path += "L " + this.xVal[i] + " " + this.yVal[i] + " ";
+            }
+            this.stringPath = path;
+            console.log(this.stringPath);
+        };
+
     }, 
     templateUrl: "templates/svg.tpl.html"
 });

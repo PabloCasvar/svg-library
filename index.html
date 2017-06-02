@@ -10,7 +10,12 @@
 </head>
 <body ng-app="myApp">
     <plot-svg
-
+        min-x="-10"
+        max-x="10"
+        min-y="-1"
+        max-y="1"
+        resolution="50"
+        function-def="Math.sin(x)"
     ></plot-svg>
 </body>
 </html>
