@@ -26,8 +26,6 @@ app.component('plotSvg',{
            this.setDeltaY();
            this.setOriginX();
            this.setOriginY();
-           console.log(this.originY);
-           console.log(this.dy);
         };
 
         this.setDeltaX = function(){
