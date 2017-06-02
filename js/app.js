@@ -56,7 +56,9 @@ app.component('plotSvg',{
             }else if(max <= 0){
                 origin = this.height-max*this.dy;
             }
-            this.originY = origin;
+            console.log(origin);
+            this.originY = this.transCoordY(origin);
+            console.log(this.originY);
         };
 
         this.setOrigin = function(){
@@ -64,6 +66,10 @@ app.component('plotSvg',{
             this.setDeltaY();
             this.setOriginX();
             this.setOriginY();
+        };
+        //todo: implement matrix transformations
+        this.transCoordY = function(y){
+            return this.height - y;
         };
     }, 
     templateUrl: "templates/svg.tpl.html"

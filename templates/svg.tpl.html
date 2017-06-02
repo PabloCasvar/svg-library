@@ -4,22 +4,8 @@
     xmlns="http://www.w3.org/2000/svg"
     style="border: 1px black solid">
     <!-- X-axis -->
-    <!--<line
-        ng-attr-x1="0"
-        ng-attr-y1='{{ctrl.height/2}}'
-        ng-attr-x2='{{ctrl.width}}'
-        ng-attr-y2='{{ctrl.height/2}}'
-        style="stroke:rgb(0,0,0);stroke-width:1" 
-    ></line>-->
-
-        <!-- Y-axis -->
-    <!--<line
-        ng-attr-x1="0"
-        ng-attr-y1='-50'
-        ng-attr-x2='{{ctrl.width}}'
-        ng-attr-y2='{{ctrl.height/2}}'
-        style="stroke:rgb(0,0,0);stroke-width:1" 
-    ></line>-->
+    <path d="M0 {{ctrl.originY}} H {{ctrl.width}} " fill="transparent" stroke="black"></path>
+    <path d="M {{ctrl.originX}} 0 V1 {{ctrl.height}} " fill="transparent" stroke="black"></path>
 
     <circle
         ng-attr-cx = "{{ctrl.originX}}"
