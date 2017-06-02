@@ -22,10 +22,7 @@ app.component('plotSvg',{
            if(!this.minY) this.minY = -5;
            if(!this.maxY) this.maxY = 5;
            
-           this.setDeltaX();
-           this.setDeltaY();
-           this.setOriginX();
-           this.setOriginY();
+           this.setOrigin();
         };
 
         this.setDeltaX = function(){
@@ -47,6 +44,7 @@ app.component('plotSvg',{
             }
             this.originX = origin;
         };
+        //todo: Correct y direction 
         this.setOriginY = function(){
             var min = this.minY;
             var max = this.maxY;
@@ -59,6 +57,13 @@ app.component('plotSvg',{
                 origin = this.height-max*this.dy;
             }
             this.originY = origin;
+        };
+
+        this.setOrigin = function(){
+            this.setDeltaX();
+            this.setDeltaY();
+            this.setOriginX();
+            this.setOriginY();
         };
     }, 
     templateUrl: "templates/svg.tpl.html"

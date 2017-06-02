@@ -30,15 +30,13 @@
 
 </svg>
 
-<div>
-    <p>
-        <span>x-min: {{ctrl.minX}}</span><br>
-        <span>x-max: {{ctrl.maxX}}</span>
-    </p>
-</div>
-<div>
-    <p>
-        <span>y-min: {{ctrl.minY}}</span><br>
-        <span>y-max: {{ctrl.maxY}}</span>
-    </p>
-</div>
+<form>
+    <label for="">x min</label>
+    <input type="text" ng-model="ctrl.minX" ng-change="ctrl.setOrigin()"><br>
+    <label for="">x max</label>
+    <input type="text" ng-model="ctrl.maxX" ng-change="ctrl.setOrigin()"><br><br>
+    <label for="">y min</label>
+    <input type="text" ng-model="ctrl.minY" ng-change="ctrl.setOrigin()"><br>
+    <label for="">y max</label>
+    <input type="text" ng-model="ctrl.maxY" ng-change="ctrl.setOrigin()"><br>
+</form>
