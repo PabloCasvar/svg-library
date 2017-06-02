@@ -1,0 +1,44 @@
+<svg version="1.1" 
+    ng-attr-width='{{ctrl.width}}'
+    ng-attr-height='{{ctrl.height}}'
+    xmlns="http://www.w3.org/2000/svg"
+    style="border: 1px black solid">
+    <!-- X-axis -->
+    <!--<line
+        ng-attr-x1="0"
+        ng-attr-y1='{{ctrl.height/2}}'
+        ng-attr-x2='{{ctrl.width}}'
+        ng-attr-y2='{{ctrl.height/2}}'
+        style="stroke:rgb(0,0,0);stroke-width:1" 
+    ></line>-->
+
+        <!-- Y-axis -->
+    <!--<line
+        ng-attr-x1="0"
+        ng-attr-y1='-50'
+        ng-attr-x2='{{ctrl.width}}'
+        ng-attr-y2='{{ctrl.height/2}}'
+        style="stroke:rgb(0,0,0);stroke-width:1" 
+    ></line>-->
+
+    <circle
+        ng-attr-cx = "{{ctrl.originX}}"
+        ng-attr-cy = "{{ctrl.originY}}"
+        ng-attr-r = "2"
+        ng-attr-fill = "red"
+    ></circle>
+
+</svg>
+
+<div>
+    <p>
+        <span>x-min: {{ctrl.minX}}</span><br>
+        <span>x-max: {{ctrl.maxX}}</span>
+    </p>
+</div>
+<div>
+    <p>
+        <span>y-min: {{ctrl.minY}}</span><br>
+        <span>y-max: {{ctrl.maxY}}</span>
+    </p>
+</div>
