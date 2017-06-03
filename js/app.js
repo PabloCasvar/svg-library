@@ -17,50 +17,52 @@ app.component('plotSvg',{
     controller: function($scope){
         this.$onInit = function(){
            //set default values
-           if(!this.width) this.width = 100;
-           if(!this.height) this.height = 100;
+           if(!this.width) this.width = 250;
+           if(!this.height) this.height = 250;
            if(!this.minX) this.minX = -5;
            if(!this.maxX) this.maxX = 5;
            if(!this.minY) this.minY = -5;
            if(!this.maxY) this.maxY = 5;
            if(!this.resolution) this.resolution = 100;
-           if(!this.functionDef) this.functionDef = "x";
+           if(!this.functionDef) this.functionDef = "Math.cos(x)";
            
-           this.setOrigin();
-           this.evaluateFunction();
-           this.drawPath();
+           this.plotFunction();
         };
-
+        this.plotFunction = function(){
+            this.setOrigin();
+            this.evaluateFunction();
+            this.drawPath();
+        };
         this.setDeltaX = function(){
-            this.dx = this.width/(this.maxX-this.minX);
+            this.dx = this.getWidth()/(this.getMaxX()-this.getMinX());
         };
         this.setDeltaY = function(){
-            this.dy = this.height/(this.maxY-this.minY);
+            this.dy = this.getHeight()/(this.getMaxY()-this.getMinY());
         };
         this.setOriginX = function(){
-            var min = this.minX;
-            var max = this.maxX;
+            var min = this.getMinX();
+            var max = this.getMaxX();
             var origin;
             if(min>=0){ 
                 origin=-1*min*this.dx;
             }else if(min<0 && max>0){
                 origin = -1*min*this.dx;
             }else if(max <= 0){
-                origin = this.width-max*this.dx;
+                origin = this.getWidth()-max*this.dx;
             }
             this.originX = origin;
         };
         //todo: Correct y direction 
         this.setOriginY = function(){
-            var min = this.minY;
-            var max = this.maxY;
+            var min = this.getMinY();
+            var max = this.getMaxY();
             var origin;
             if(min>=0){ 
                 origin=-1*min*this.dy;
             }else if(min<0 && max>0){
                 origin = -1*min*this.dy;
             }else if(max <= 0){
-                origin = this.height-max*this.dy;
+                origin = this.getHeight()-max*this.dy;
             }
             this.originY = this.transCoordY(origin);
         };
@@ -73,12 +75,12 @@ app.component('plotSvg',{
         };
         //todo: implement matrix transformations
         this.transCoordY = function(y){
-            return parseInt(this.height - y);
+            return Number(this.getHeight() - y);
         };
         this.evaluateFunction = function(){
             var stringFunc = "return " + this.functionDef + ";"
             var functionX = Function("x", stringFunc);
-            var delta = (this.maxX - this.minY)/(this.resolution-1);
+            var delta = (this.getMaxX() - this.getMinX())/(this.getResolution()-1);
             //"real" values from evaluate function
             var xFun = [];
             var yFun = [];
@@ -86,16 +88,16 @@ app.component('plotSvg',{
             this.xVal = [];
             this.yVal = [];
             //transformation parameters
-            var m_x = this.width/(this.maxX-this.minX);
-            var b_x = -1*m_x*this.minX;
-            var m_y = this.height/(this.maxY-this.minY);
-            var b_y = -1*m_y*this.minY;
+            var m_x = this.getWidth()/(this.getMaxX()-this.getMinX());
+            var b_x = -1*m_x*this.getMinX();
+            var m_y = this.getHeight()/(this.getMaxY()-this.getMinY());
+            var b_y = -1*m_y*this.getMinY();
 
-            for(var i=0; i<this.resolution; i++){
-                xFun[i] = parseInt(this.minX + parseInt(i*delta));
-                yFun[i] = parseInt(functionX(xFun[i]));
+            for(var i=0; i<this.getResolution(); i++){
+                xFun[i] = this.getMinX() + i*delta;
+                yFun[i] = functionX(xFun[i]);
                 
-                this.xVal[i] = parseInt(m_x*xFun[i] + b_x); 
+                this.xVal[i] = m_x*xFun[i] + b_x; 
                 this.yVal[i] = this.transCoordY(m_y*yFun[i] + b_y);
             }
             console.log(xFun);
@@ -112,9 +114,46 @@ app.component('plotSvg',{
             this.stringPath = path;
             console.log(this.stringPath);
         };
-
+        this.getWidth = function(){
+            return this.functionToNumber(this.width);
+        };
+        this.getHeight = function(){
+            return this.functionToNumber(this.height);
+        };
+        this.getMaxX = function(){
+            return this.functionToNumber(this.maxX);
+        }
+        this.getMinX = function(){
+            return this.functionToNumber(this.minX);
+        }
+        this.getMaxY = function(){
+            return this.functionToNumber(this.maxY);
+        }
+        this.getMinY = function(){
+            return this.functionToNumber(this.minY);
+        }
+        this.getResolution = function(){
+            return this.functionToNumber(this.resolution);
+        }
+        this.functionToNumber = function(fun){
+            return Number((Function("return " + fun))());
+        };
     }, 
     templateUrl: "templates/svg.tpl.html"
+});
+
+app.directive('stringToNumber', function() {
+  return {
+    require: 'ngModel',
+    link: function(scope, element, attrs, ngModel) {
+      ngModel.$parsers.push(function(value) {
+        return '' + value;
+      });
+      ngModel.$formatters.push(function(value) {
+        return parseFloat(value);
+      });
+    }
+  };
 });
 
 })(window.angular);

@@ -1,11 +1,11 @@
 <svg version="1.1" 
-    ng-attr-width='{{ctrl.width}}'
-    ng-attr-height='{{ctrl.height}}'
+    ng-attr-width='{{ctrl.getWidth()}}'
+    ng-attr-height='{{ctrl.getHeight()}}'
     xmlns="http://www.w3.org/2000/svg"
     style="border: 1px black solid">
     <!-- X-axis -->
-    <path d="M0 {{ctrl.originY}} H {{ctrl.width}} " fill="transparent" stroke="black"></path>
-    <path d="M {{ctrl.originX}} 0 V0 {{ctrl.height}} " fill="transparent" stroke="black"></path>
+    <path d="M0 {{ctrl.originY}} H {{ctrl.getWidth()}} " fill="transparent" stroke="black"></path>
+    <path d="M {{ctrl.originX}} 0 V0 {{ctrl.getHeight()}} " fill="transparent" stroke="black"></path>
 
     <!--plot-->
 
@@ -21,16 +21,20 @@
 </svg>
 
 <form>
+    <label for="">width</label>
+    <input string-to-text type="text" ng-model="ctrl.width" ng-change="ctrl.plotFunction();"><br>
+    <label for="">height</label>
+    <input string-to-text type="text" ng-model="ctrl.height" ng-change="ctrl.plotFunction();"><br><br>
     <label for="">X min</label>
-    <input type="text" ng-model="ctrl.minX" ng-change="ctrl.setOrigin(); ctrl.evaluateFunction(); ctrl.drawPath()"><br>
+    <input string-to-text type="text" ng-model="ctrl.minX" ng-change="ctrl.plotFunction();"><br>
     <label for="">X max</label>
-    <input type="text" ng-model="ctrl.maxX" ng-change="ctrl.setOrigin(); ctrl.evaluateFunction(); ctrl.drawPath()"><br><br>
+    <input string-to-text type="text" ng-model="ctrl.maxX" ng-change="ctrl.plotFunction();"><br><br>
     <label for="">Y min</label>
-    <input type="text" ng-model="ctrl.minY" ng-change="ctrl.setOrigin(); ctrl.evaluateFunction(); ctrl.drawPath()"><br>
+    <input string-to-text type="text" ng-model="ctrl.minY" ng-change="ctrl.plotFunction();"><br>
     <label for="">Y max</label>
-    <input type="text" ng-model="ctrl.maxY" ng-change="ctrl.setOrigin(); ctrl.evaluateFunction(); ctrl.drawPath()"><br><br>
+    <input string-to-text type="text" ng-model="ctrl.maxY" ng-change="ctrl.plotFunction();"><br><br>
     <label for="">Resolution</label>
-    <input type="text" ng-model="ctrl.resolution" ng-change="ctrl.evaluateFunction(); ctrl.drawPath()"><br>
+    <input string-to-text type="text" ng-model="ctrl.resolution" ng-change="ctrl.plotFunction();"><br>
     <label for="">Function</label>
-    <input type="text" ng-model="ctrl.functionDef" ng-change="ctrl.evaluateFunction(); ctrl.drawPath()"><br>
+    <input type="text" ng-model="ctrl.functionDef" ng-change="ctrl.plotFunction();"><br>
 </form>
