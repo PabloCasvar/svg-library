@@ -11,7 +11,8 @@ app.component('plotSvg',{
         minY: "@",
         maxY: "@",
         resolution: "@",
-        functionDef: "@"
+        functionDef: "=?",
+        config: "=?"
     },
     controllerAs: 'ctrl',
     controller: function($scope){
@@ -24,8 +25,9 @@ app.component('plotSvg',{
            if(!this.minY) this.minY = -5;
            if(!this.maxY) this.maxY = 5;
            if(!this.resolution) this.resolution = 100;
+           console.log(this.functionDef);
            if(!this.functionDef) this.functionDef = "Math.cos(x)";
-           
+           if(this.config == undefined) this.config = true;
            this.plotFunction();
         };
         this.plotFunction = function(){
@@ -100,10 +102,6 @@ app.component('plotSvg',{
                 this.xVal[i] = m_x*xFun[i] + b_x; 
                 this.yVal[i] = this.transCoordY(m_y*yFun[i] + b_y);
             }
-            console.log(xFun);
-            console.log(this.xVal);
-            console.log(yFun);
-            console.log(this.yVal);
         };
         this.drawPath = function(){
             this.stringPath = [];
@@ -112,7 +110,12 @@ app.component('plotSvg',{
                 path += "L " + this.xVal[i] + " " + this.yVal[i] + " ";
             }
             this.stringPath = path;
-            console.log(this.stringPath);
+        };
+        this.getConfig = function(){
+            if(this.config === "true")
+                return true;
+            else
+                return false;
         };
         this.getWidth = function(){
             return this.functionToNumber(this.width);
@@ -140,20 +143,6 @@ app.component('plotSvg',{
         };
     }, 
     templateUrl: "templates/svg.tpl.html"
-});
-
-app.directive('stringToNumber', function() {
-  return {
-    require: 'ngModel',
-    link: function(scope, element, attrs, ngModel) {
-      ngModel.$parsers.push(function(value) {
-        return '' + value;
-      });
-      ngModel.$formatters.push(function(value) {
-        return parseFloat(value);
-      });
-    }
-  };
 });
 
 })(window.angular);

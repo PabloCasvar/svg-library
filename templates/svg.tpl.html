@@ -9,32 +9,32 @@
 
     <!--plot-->
 
-    <path d="{{ctrl.stringPath}}" fill="transparent" stroke="black"></path>
+    <path d="{{ctrl.stringPath}}" fill="transparent" stroke="blue"></path>
 
     <circle
         ng-attr-cx = "{{ctrl.originX}}"
         ng-attr-cy = "{{ctrl.originY}}"
-        ng-attr-r = "2"
+        ng-attr-r = "1"
         ng-attr-fill = "red"
     ></circle>
 
 </svg>
 
-<form>
+<form ng-show="ctrl.config">
     <label for="">width</label>
-    <input string-to-text type="text" ng-model="ctrl.width" ng-change="ctrl.plotFunction();"><br>
+    <input type="text" ng-model="ctrl.width" ng-change="ctrl.plotFunction();"><br>
     <label for="">height</label>
-    <input string-to-text type="text" ng-model="ctrl.height" ng-change="ctrl.plotFunction();"><br><br>
+    <input ype="text" ng-model="ctrl.height" ng-change="ctrl.plotFunction();"><br><br>
     <label for="">X min</label>
-    <input string-to-text type="text" ng-model="ctrl.minX" ng-change="ctrl.plotFunction();"><br>
+    <input type="text" ng-model="ctrl.minX" ng-change="ctrl.plotFunction();"><br>
     <label for="">X max</label>
-    <input string-to-text type="text" ng-model="ctrl.maxX" ng-change="ctrl.plotFunction();"><br><br>
+    <input type="text" ng-model="ctrl.maxX" ng-change="ctrl.plotFunction();"><br><br>
     <label for="">Y min</label>
-    <input string-to-text type="text" ng-model="ctrl.minY" ng-change="ctrl.plotFunction();"><br>
+    <input type="text" ng-model="ctrl.minY" ng-change="ctrl.plotFunction();"><br>
     <label for="">Y max</label>
-    <input string-to-text type="text" ng-model="ctrl.maxY" ng-change="ctrl.plotFunction();"><br><br>
+    <input type="text" ng-model="ctrl.maxY" ng-change="ctrl.plotFunction();"><br><br>
     <label for="">Resolution</label>
-    <input string-to-text type="text" ng-model="ctrl.resolution" ng-change="ctrl.plotFunction();"><br>
+    <input type="text" ng-model="ctrl.resolution" ng-change="ctrl.plotFunction();"><br>
     <label for="">Function</label>
     <input type="text" ng-model="ctrl.functionDef" ng-change="ctrl.plotFunction();"><br>
 </form>
