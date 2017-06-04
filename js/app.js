@@ -12,6 +12,7 @@ app.component('plotSvg',{
         maxY: "@",
         resolution: "@",
         functions: "=?",
+        points: "=?",
         config: "=?"
     },
     controllerAs: 'ctrl',
@@ -28,14 +29,20 @@ app.component('plotSvg',{
            if(!this.functions){
                 this.functions = [];
                 this.functions[0] = {"def":"Math.cos(x)"};
+           }
+           if(!this.points){
+                this.points = [];
+                this.points[0] = {"x":0, "y":0};
            } 
            if(this.config == undefined) this.config = true;
-
+           this.colorFunction = "blue";
+           this.colorPoint    = "red";
            this.plotFunctions();
         };
         this.plotFunctions = function(){
             this.setOrigin();
             this.setTransformationParameters();
+            this.drawAllPoints();
             this.drawAllFunctions();
         };
         this.setDeltaX = function(){
@@ -78,6 +85,26 @@ app.component('plotSvg',{
             this.setOriginX();
             this.setOriginY();
         };
+        this.drawAllPoints = function(){
+            //this.points = [{"x": 1, "y":0}, {"x": -1, "y":0}];
+            this.pointsVal = [];
+            for(var i=0; i<this.points.length; i++){
+                pointCoord = this.realToPixelCoord(this.points[i]);
+                this.pointsVal.push(this.points[i]);
+                //change to pixels coordinates
+                this.pointsVal[i].x = pointCoord.x;
+                this.pointsVal[i].y = pointCoord.y;
+                console.log(this.pointsVal)
+                this.setColor(this.pointsVal[i], this.colorPoint);
+                console.log(this.pointsVal[i]);
+            }
+            console.log(this.pointsVal);
+        };
+        this.realToPixelCoord = function(point){
+            var xVal = this.realToPixelX(this.functionToNumber(point.x));
+            var yVal = this.transCoordY(this.realToPixelY(this.functionToNumber(point.y)));
+            return {"x":xVal, "y":yVal};
+        };
         //todo: implement matrix transformations
         this.transCoordY = function(y){
             return Number(this.getHeight() - y);
@@ -107,7 +134,7 @@ app.component('plotSvg',{
             for(var i=0; i<this.functions.length; i++){
                 values = this.evaluateThisFunctions(this.functions[i].def);
                 path   = this.createPath(values.xVal, values.yVal);
-                this.setColor(this.functions[i]);
+                this.setColor(this.functions[i], this.colorFunction);
                 this.functions[i].values = values;
                 this.functions[i].path   = path;
                 this.paths[i] = this.functions[i];
@@ -143,9 +170,9 @@ app.component('plotSvg',{
             }
             return path;
         };
-        this.setColor = function(obj){
+        this.setColor = function(obj, color){
             if(!obj.hasOwnProperty("color"))
-                obj.color = "blue"; 
+                obj.color = color; 
         };
 
         this.getWidth = function(){
@@ -170,7 +197,11 @@ app.component('plotSvg',{
             return this.functionToNumber(this.resolution);
         }
         this.functionToNumber = function(fun){
-            return Number((Function("return " + fun))());
+            type = typeof(fun);
+            if(type ==='string')
+                return Number((Function("return " + fun))());
+            else if(type === 'number')
+                return fun;
         };
     }, 
     templateUrl: "templates/svg.tpl.html"

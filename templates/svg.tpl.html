@@ -15,12 +15,13 @@
         ng-attr-stroke="{{func.color}}"
     ></path>
     <!--<text x="20" y="20" fill="black">Hola 1</text>-->
-
+    
     <circle
-        ng-attr-cx = "{{ctrl.originX}}"
-        ng-attr-cy = "{{ctrl.originY}}"
+        ng-repeat="point in ctrl.pointsVal"
+        ng-attr-cx = "{{point.x}}"
+        ng-attr-cy = "{{point.y}}"
         ng-attr-r = "2"
-        ng-attr-fill = "red"
+        ng-attr-fill = "{{point.color}}"
     ></circle>
 
 </svg>
@@ -47,5 +48,14 @@
         <input type="text" ng-model="func.def" ng-change="ctrl.drawAllFunctions();">
         <button ng-click="ctrl.removeFunction($index)">x</button><br><br>
     </div>
+    <br><br>
+    <button ng-click="">Add Point</button>
+    <div ng-repeat="func in ctrl.points track by $index">
+        <label for="">Point {{$index+1}}</label>
+        <input type="text" ng-model="func.x" ng-change="">
+        <input type="text" ng-model="func.y" ng-change="">
+        <button ng-click="">x</button><br><br>
+    </div>
+    
     
 </form>
