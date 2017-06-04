@@ -7,9 +7,6 @@
     <path d="M0 {{ctrl.originY}} H {{ctrl.getWidth()}} " fill="transparent" stroke="black"></path>
     <path d="M {{ctrl.originX}} 0 V0 {{ctrl.getHeight()}} " fill="transparent" stroke="black"></path>
 
-    <!--plot-->
-    <path d="{{ctrl.stringPath}}" fill="transparent" stroke="blue"></path>
-
     <!--plot multiple functions-->
     <path 
         ng-repeat="f in ctrl.paths"
@@ -43,14 +40,12 @@
     <input type="text" ng-model="ctrl.maxY" ng-change="ctrl.plotFunction();"><br><br>
     <label for="">Resolution</label>
     <input type="text" ng-model="ctrl.resolution" ng-change="ctrl.plotFunction();"><br>
-    <label for="">Function</label>
-    <input type="text" ng-model="ctrl.functionDef" ng-change="ctrl.plotFunction();"><br><br>
     
     <button ng-click="ctrl.addFunction();">Add function</button>
     <div ng-repeat="func in ctrl.functions track by $index">
         <label for="">Function {{$index+1}}</label>
         <input type="text" ng-model="ctrl.functions[$index].def" ng-change="ctrl.drawAllFunctions()">
-        <button ng-click="ctrl.removeFunctions($index)">x</button><br><br>
+        <button ng-click="ctrl.removeFunction($index)">x</button><br><br>
     </div>
     
 </form>

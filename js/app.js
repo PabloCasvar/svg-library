@@ -11,7 +11,6 @@ app.component('plotSvg',{
         minY: "@",
         maxY: "@",
         resolution: "@",
-        functionDef: "=?",
         functions: "=?",
         config: "=?"
     },
@@ -28,19 +27,16 @@ app.component('plotSvg',{
            if(!this.resolution) this.resolution = 100;
            if(!this.functions){
                 this.functions = [];
-                this.functions[0] = "Math.cos(x)";
+                this.functions[0] = {"def":"Math.cos(x)"};
            } 
-           if(!this.functionDef) this.functionDef = "Math.cos(x)";
            if(this.config == undefined) this.config = true;
 
-           this.plotFunction();
+           this.plotFunctions();
         };
-        this.plotFunction = function(){
+        this.plotFunctions = function(){
             this.setOrigin();
             this.setTransformationParameters();
             this.drawAllFunctions();
-            this.evaluateFunction();
-            this.drawPath();
         };
         this.setDeltaX = function(){
             this.dx = this.getWidth()/(this.getMaxX()-this.getMinX());
@@ -99,37 +95,10 @@ app.component('plotSvg',{
         this.realToPixelY = function(yReal){
             return this.m_y*yReal + this.b_y
         };
-        this.evaluateFunction = function(){
-            var stringFunc = "return " + this.functionDef + ";"
-            var functionX = Function("x", stringFunc);
-            var delta = (this.getMaxX() - this.getMinX())/(this.getResolution()-1);
-            //"real" values from evaluate function
-            var xFun = [];
-            var yFun = [];
-            //values mapped to svg pixels
-            this.xVal = [];
-            this.yVal = [];
-
-            for(var i=0; i<this.getResolution(); i++){
-                xFun[i] = this.getMinX() + i*delta;
-                yFun[i] = functionX(xFun[i]);
-                
-                this.xVal[i] = this.realToPixelX(xFun[i]); 
-                this.yVal[i] = this.transCoordY(this.realToPixelY(yFun[i]));
-            }
-        };
-        this.drawPath = function(){
-            this.stringPath = [];
-            var path = "M " + this.xVal[0] + " " + this.yVal[0] + " ";
-            for(var i=1; i<this.xVal.length; i++){
-                path += "L " + this.xVal[i] + " " + this.yVal[i] + " ";
-            }
-            this.stringPath = path;
-        };
         this.addFunction = function(){
             this.functions.push({"def":""});
         };
-        this.removeFunctions = function(index){
+        this.removeFunction = function(index){
             this.functions.splice(index, 1);
             this.paths.splice(index, 1);
         };
