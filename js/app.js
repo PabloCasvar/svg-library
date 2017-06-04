@@ -12,26 +12,33 @@ app.component('plotSvg',{
         maxY: "@",
         resolution: "@",
         functionDef: "=?",
+        functions: "=?",
         config: "=?"
     },
     controllerAs: 'ctrl',
     controller: function($scope){
         this.$onInit = function(){
            //set default values
-           if(!this.width) this.width = 250;
+           if(!this.width)  this.width = 250;
            if(!this.height) this.height = 250;
-           if(!this.minX) this.minX = -5;
-           if(!this.maxX) this.maxX = 5;
-           if(!this.minY) this.minY = -5;
-           if(!this.maxY) this.maxY = 5;
+           if(!this.minX)   this.minX = -5;
+           if(!this.maxX)   this.maxX = 5;
+           if(!this.minY)   this.minY = -5;
+           if(!this.maxY)   this.maxY = 5;
            if(!this.resolution) this.resolution = 100;
-           console.log(this.functionDef);
+           if(!this.functions){
+                this.functions = [];
+                this.functions[0] = "Math.cos(x)";
+           } 
            if(!this.functionDef) this.functionDef = "Math.cos(x)";
            if(this.config == undefined) this.config = true;
+
            this.plotFunction();
         };
         this.plotFunction = function(){
             this.setOrigin();
+            this.setTransformationParameters();
+            this.drawAllFunctions();
             this.evaluateFunction();
             this.drawPath();
         };
@@ -79,6 +86,19 @@ app.component('plotSvg',{
         this.transCoordY = function(y){
             return Number(this.getHeight() - y);
         };
+        this.setTransformationParameters = function(){
+            //transforms "real" values to SVG dimensions pixels
+            this.m_x = this.getWidth()/(this.getMaxX()-this.getMinX());
+            this.b_x = -1*this.m_x*this.getMinX();
+            this.m_y = this.getHeight()/(this.getMaxY()-this.getMinY());
+            this.b_y = -1*this.m_y*this.getMinY();
+        };
+        this.realToPixelX = function(xReal){
+            return this.m_x*xReal + this.b_x
+        };
+        this.realToPixelY = function(yReal){
+            return this.m_y*yReal + this.b_y
+        };
         this.evaluateFunction = function(){
             var stringFunc = "return " + this.functionDef + ";"
             var functionX = Function("x", stringFunc);
@@ -89,18 +109,13 @@ app.component('plotSvg',{
             //values mapped to svg pixels
             this.xVal = [];
             this.yVal = [];
-            //transformation parameters
-            var m_x = this.getWidth()/(this.getMaxX()-this.getMinX());
-            var b_x = -1*m_x*this.getMinX();
-            var m_y = this.getHeight()/(this.getMaxY()-this.getMinY());
-            var b_y = -1*m_y*this.getMinY();
 
             for(var i=0; i<this.getResolution(); i++){
                 xFun[i] = this.getMinX() + i*delta;
                 yFun[i] = functionX(xFun[i]);
                 
-                this.xVal[i] = m_x*xFun[i] + b_x; 
-                this.yVal[i] = this.transCoordY(m_y*yFun[i] + b_y);
+                this.xVal[i] = this.realToPixelX(xFun[i]); 
+                this.yVal[i] = this.transCoordY(this.realToPixelY(yFun[i]));
             }
         };
         this.drawPath = function(){
@@ -111,11 +126,52 @@ app.component('plotSvg',{
             }
             this.stringPath = path;
         };
-        this.getConfig = function(){
-            if(this.config === "true")
-                return true;
-            else
-                return false;
+        this.addFunction = function(){
+            this.functions.push({"def":""});
+        };
+        this.removeFunctions = function(index){
+            this.functions.splice(index, 1);
+            this.paths.splice(index, 1);
+        };
+        this.drawAllFunctions = function(){
+            this.paths = [];
+            for(var i=0; i<this.functions.length; i++){
+                values = this.evaluateThisFunctions(this.functions[i].def);
+                path   = this.createPath(values.xVal, values.yVal);
+                this.functions[i].values = values;
+                this.functions[i].path   = path;
+                this.paths[i] = {"path": this.createPath(values.xVal, values.yVal)};
+            }
+            console.log(this.functions);
+        };
+        this.evaluateThisFunctions = function(func){
+            var stringFunc = "return " + func + ";"
+            var functionX = Function("x", stringFunc);
+            var delta = (this.getMaxX() - this.getMinX())/(this.getResolution()-1);
+            //"real" values from evaluate function
+            var xFun = [];
+            var yFun = [];
+            //values mapped to svg pixels
+            xVal = [];
+            yVal = [];
+
+            for(var i=0; i<this.getResolution(); i++){
+                xFun[i] = this.getMinX() + i*delta;
+                yFun[i] = functionX(xFun[i]);
+                
+                xVal[i] = this.realToPixelX(xFun[i]); 
+                yVal[i] = this.transCoordY(this.realToPixelY(yFun[i]));
+            }
+            
+            return {"xVal": xVal, "yVal": yVal};
+        };
+        this.createPath = function(xVal, yVal){
+            stringPath = [];
+            var path = "M " + xVal[0] + " " + yVal[0] + " ";
+            for(var i=1; i<xVal.length; i++){
+                path += "L " + xVal[i] + " " + yVal[i] + " ";
+            }
+            return path;
         };
         this.getWidth = function(){
             return this.functionToNumber(this.width);

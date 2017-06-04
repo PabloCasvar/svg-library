@@ -1,0 +1,8 @@
+@font-face{
+	font-family: 'latex';
+	src: url('../fonts/latinmodern-math.otf');
+}
+
+text{
+    font-family: 'latex'
+}

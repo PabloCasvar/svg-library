@@ -8,13 +8,21 @@
     <path d="M {{ctrl.originX}} 0 V0 {{ctrl.getHeight()}} " fill="transparent" stroke="black"></path>
 
     <!--plot-->
-
     <path d="{{ctrl.stringPath}}" fill="transparent" stroke="blue"></path>
+
+    <!--plot multiple functions-->
+    <path 
+        ng-repeat="f in ctrl.paths"
+        ng-attr-d="{{f.path}}"
+        ng-attr-fill="transparent"
+        ng-attr-stroke="blue"
+    ></path>
+    <!--<text x="20" y="20" fill="black">Hola 1</text>-->
 
     <circle
         ng-attr-cx = "{{ctrl.originX}}"
         ng-attr-cy = "{{ctrl.originY}}"
-        ng-attr-r = "1"
+        ng-attr-r = "2"
         ng-attr-fill = "red"
     ></circle>
 
@@ -36,5 +44,13 @@
     <label for="">Resolution</label>
     <input type="text" ng-model="ctrl.resolution" ng-change="ctrl.plotFunction();"><br>
     <label for="">Function</label>
-    <input type="text" ng-model="ctrl.functionDef" ng-change="ctrl.plotFunction();"><br>
+    <input type="text" ng-model="ctrl.functionDef" ng-change="ctrl.plotFunction();"><br><br>
+    
+    <button ng-click="ctrl.addFunction();">Add function</button>
+    <div ng-repeat="func in ctrl.functions track by $index">
+        <label for="">Function {{$index+1}}</label>
+        <input type="text" ng-model="ctrl.functions[$index].def" ng-change="ctrl.drawAllFunctions()">
+        <button ng-click="ctrl.removeFunctions($index)">x</button><br><br>
+    </div>
+    
 </form>

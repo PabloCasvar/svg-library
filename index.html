@@ -6,11 +6,16 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="js/angular.min.js"></script>
     <script type="text/javascript" src="js/app.js"></script>
+    <style rel="stylesheet" href="css/style.css"></style>
     <title>Document</title>
 </head>
 <body ng-app="myApp">
     <plot-svg
-        function-def = "['x', '2*x', 'x*x']"
+      functions='[
+        {"def":"x" }, 
+        {"def":"-x"},
+        {"def":"Math.sin(x)"}
+        ]'
     ></plot-svg>
 </body>
 </html>
