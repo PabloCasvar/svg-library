@@ -12,9 +12,9 @@
 <body ng-app="myApp">
     <plot-svg
       functions='[
-        {"def":"x" }, 
-        {"def":"-x"},
-        {"def":"Math.sin(x)"}
+        {"def":"-1*3" }, 
+        {"def":"Math.abs(x)", "color": "red"},
+        {"def":"Math.cos(x)", "color":"green"}
         ]'
     ></plot-svg>
 </body>

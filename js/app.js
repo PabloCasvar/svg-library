@@ -107,9 +107,10 @@ app.component('plotSvg',{
             for(var i=0; i<this.functions.length; i++){
                 values = this.evaluateThisFunctions(this.functions[i].def);
                 path   = this.createPath(values.xVal, values.yVal);
+                this.setColor(this.functions[i]);
                 this.functions[i].values = values;
                 this.functions[i].path   = path;
-                this.paths[i] = this.functions[i].path;
+                this.paths[i] = this.functions[i];
             }
             console.log(this.functions);
         };
@@ -142,6 +143,11 @@ app.component('plotSvg',{
             }
             return path;
         };
+        this.setColor = function(obj){
+            if(!obj.hasOwnProperty("color"))
+                obj.color = "blue"; 
+        };
+
         this.getWidth = function(){
             return this.functionToNumber(this.width);
         };

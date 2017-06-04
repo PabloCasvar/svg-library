@@ -9,10 +9,10 @@
 
     <!--plot multiple functions-->
     <path 
-        ng-repeat="path in ctrl.paths"
-        ng-attr-d="{{path}}"
+        ng-repeat="func in ctrl.paths"
+        ng-attr-d="{{func.path}}"
         ng-attr-fill="transparent"
-        ng-attr-stroke="blue"
+        ng-attr-stroke="{{func.color}}"
     ></path>
     <!--<text x="20" y="20" fill="black">Hola 1</text>-->
 
@@ -27,24 +27,24 @@
 
 <form ng-show="ctrl.config">
     <label for="">width</label>
-    <input type="text" ng-model="ctrl.width" ng-change="ctrl.plotFunction();"><br>
+    <input type="text" ng-model="ctrl.width" ng-change="ctrl.plotFunctions();"><br>
     <label for="">height</label>
-    <input ype="text" ng-model="ctrl.height" ng-change="ctrl.plotFunction();"><br><br>
+    <input ype="text" ng-model="ctrl.height" ng-change="ctrl.plotFunctions();"><br><br>
     <label for="">X min</label>
-    <input type="text" ng-model="ctrl.minX" ng-change="ctrl.plotFunction();"><br>
+    <input type="text" ng-model="ctrl.minX" ng-change="ctrl.plotFunctions();"><br>
     <label for="">X max</label>
-    <input type="text" ng-model="ctrl.maxX" ng-change="ctrl.plotFunction();"><br><br>
+    <input type="text" ng-model="ctrl.maxX" ng-change="ctrl.plotFunctions();"><br><br>
     <label for="">Y min</label>
-    <input type="text" ng-model="ctrl.minY" ng-change="ctrl.plotFunction();"><br>
+    <input type="text" ng-model="ctrl.minY" ng-change="ctrl.plotFunctions();"><br>
     <label for="">Y max</label>
-    <input type="text" ng-model="ctrl.maxY" ng-change="ctrl.plotFunction();"><br><br>
+    <input type="text" ng-model="ctrl.maxY" ng-change="ctrl.plotFunctions();"><br><br>
     <label for="">Resolution</label>
-    <input type="text" ng-model="ctrl.resolution" ng-change="ctrl.plotFunction();"><br>
+    <input type="text" ng-model="ctrl.resolution" ng-change="ctrl.plotFunctions();"><br>
     
     <button ng-click="ctrl.addFunction();">Add function</button>
     <div ng-repeat="func in ctrl.functions track by $index">
         <label for="">Function {{$index+1}}</label>
-        <input type="text" ng-model="ctrl.functions[$index].def" ng-change="ctrl.drawAllFunctions()">
+        <input type="text" ng-model="func.def" ng-change="ctrl.drawAllFunctions();">
         <button ng-click="ctrl.removeFunction($index)">x</button><br><br>
     </div>
     
