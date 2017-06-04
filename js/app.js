@@ -109,7 +109,7 @@ app.component('plotSvg',{
                 path   = this.createPath(values.xVal, values.yVal);
                 this.functions[i].values = values;
                 this.functions[i].path   = path;
-                this.paths[i] = {"path": this.createPath(values.xVal, values.yVal)};
+                this.paths[i] = this.functions[i].path;
             }
             console.log(this.functions);
         };
