@@ -50,10 +50,10 @@
     </div>
     <br><br>
     <button ng-click="">Add Point</button>
-    <div ng-repeat="func in ctrl.points track by $index">
+    <div ng-repeat="point in ctrl.points track by $index">
         <label for="">Point {{$index+1}}</label>
-        <input type="text" ng-model="func.x" ng-change="">
-        <input type="text" ng-model="func.y" ng-change="">
+        <input type="text" ng-model="point.x" ng-change="">
+        <input type="text" ng-model="point.y" ng-change="">
         <button ng-click="">x</button><br><br>
     </div>
     

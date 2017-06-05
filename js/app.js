@@ -87,10 +87,13 @@ app.component('plotSvg',{
         };
         this.drawAllPoints = function(){
             //this.points = [{"x": 1, "y":0}, {"x": -1, "y":0}];
+            console.log(this.points);
             this.pointsVal = [];
+            var point = {};
             for(var i=0; i<this.points.length; i++){
                 pointCoord = this.realToPixelCoord(this.points[i]);
-                this.pointsVal.push(this.points[i]);
+                var point = Object.assign({},this.points[i]);
+                this.pointsVal.push(point);
                 //change to pixels coordinates
                 this.pointsVal[i].x = pointCoord.x;
                 this.pointsVal[i].y = pointCoord.y;
