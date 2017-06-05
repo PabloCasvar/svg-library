@@ -13,7 +13,9 @@ app.component('plotSvg',{
         resolution: "@",
         functions: "=?",
         points: "=?",
-        config: "=?"
+        config: "=?", 
+        xlabel: "@",
+        ylabel: "@"
     },
     controllerAs: 'ctrl',
     controller: function($scope){
@@ -25,6 +27,8 @@ app.component('plotSvg',{
            if(!this.maxX)   this.maxX = 5;
            if(!this.minY)   this.minY = -5;
            if(!this.maxY)   this.maxY = 5;
+           if(!this.xlabel) this.xlabel = "";
+           if(!this.ylabel) this.ylabel = "";
            if(!this.resolution) this.resolution = 100;
            if(!this.functions){
                 this.functions = [];
