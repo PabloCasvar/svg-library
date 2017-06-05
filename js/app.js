@@ -97,11 +97,8 @@ app.component('plotSvg',{
                 //change to pixels coordinates
                 this.pointsVal[i].x = pointCoord.x;
                 this.pointsVal[i].y = pointCoord.y;
-                console.log(this.pointsVal)
                 this.setColor(this.pointsVal[i], this.colorPoint);
-                console.log(this.pointsVal[i]);
             }
-            console.log(this.pointsVal);
         };
         this.realToPixelCoord = function(point){
             var xVal = this.realToPixelX(this.functionToNumber(point.x));
@@ -132,6 +129,13 @@ app.component('plotSvg',{
             this.functions.splice(index, 1);
             this.paths.splice(index, 1);
         };
+        this.addPoint = function(){
+            this.points.push({"x":"", "y":""});
+        };
+        this.removePoint = function(index){
+            this.points.splice(index, 1);
+            this.drawAllPoints();
+        };
         this.drawAllFunctions = function(){
             this.paths = [];
             for(var i=0; i<this.functions.length; i++){
@@ -142,7 +146,6 @@ app.component('plotSvg',{
                 this.functions[i].path   = path;
                 this.paths[i] = this.functions[i];
             }
-            console.log(this.functions);
         };
         this.evaluateThisFunctions = function(func){
             var stringFunc = "return " + func + ";"
