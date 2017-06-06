@@ -36,11 +36,13 @@ app.component('plotSvg',{
            }
            if(!this.points){
                 this.points = [];
-                this.points[0] = {"x":0, "y":0};
            } 
            if(this.config == undefined) this.config = true;
            this.colorFunction = "blue";
            this.colorPoint    = "red";
+           this.quotaLength   = 9;
+           this.deltaY     = 20;
+           this.deltaX     = 20;
            this.plotFunctions();
         };
         this.plotFunctions = function(){
