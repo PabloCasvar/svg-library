@@ -41,8 +41,10 @@ app.component('plotSvg',{
            this.colorFunction = "blue";
            this.colorPoint    = "red";
            this.quotaLength   = 9;
-           this.deltaY     = 20;
-           this.deltaX     = 20;
+           this.minDeltaQuotas = 30;
+           //todo: assign value dynamically
+           this.deltaQuotaY     = 20;
+           this.deltaQuotaX     = 20;
            this.plotFunctions();
         };
         this.plotFunctions = function(){
@@ -50,6 +52,13 @@ app.component('plotSvg',{
             this.setTransformationParameters();
             this.drawAllPoints();
             this.drawAllFunctions();
+            this.setDeltaQuotas();
+        };
+        this.setDeltaQuotas = function(){
+            //Calculates one unit in x and y axis
+
+            this.deltaQuotaX = this.dx;//Math.max(this.deltaQuotaX, this.minDeltaQuotas);
+            this.deltaQuotaY = this.dy;//Math.max(this.deltaQuotaY, this.minDeltaQuotas);
         };
         this.setDeltaX = function(){
             this.dx = this.getWidth()/(this.getMaxX()-this.getMinX());

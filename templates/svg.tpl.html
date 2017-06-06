@@ -49,10 +49,10 @@
         ></circle>
 
         <!--cotas verticales-->
-        <line
+        <!--<line
             ng-repeat="i in [1, 2, 3, 4, 5, 6]"
-            ng-attr-x1="{{ctrl.originX + i*ctrl.deltaX}}"
-            ng-attr-x2="{{ctrl.originX + i*ctrl.deltaX}}"
+            ng-attr-x1="{{ctrl.originX + i*ctrl.deltaQuotaX}}"
+            ng-attr-x2="{{ctrl.originX + i*ctrl.deltaQuotaX}}"
             ng-attr-y1="{{ctrl.originY - ctrl.quotaLength/2}}"
             ng-attr-y2="{{ctrl.originY + ctrl.quotaLength/2}}"
             stroke-width="0.5" 
@@ -60,17 +60,34 @@
             stroke="black">
         </line>
 
+        <text 
+            ng-repeat="i in [1, 2, 3, 4, 5, 6]" 
+            ng-attr-text-anchor="middle"
+            ng-attr-x="{{ctrl.originX + i*ctrl.deltaQuotaX}}"
+            ng-attr-y="{{ctrl.originY - ctrl.quotaLength/2 + 25}}"
+            font-size = "13"
+        >{{i}}</text>-->
+
+
         <!--cotas horizontales-->
-        <line
-            ng-repeat="i in [1, 2, 3, 4, 5, 6]"
+        <!--<line
+            ng-repeat="i in [-6, -5, -4, -3, -2, -1, 1, 2, 3, 4, 5, 6]"
             ng-attr-x1="{{ctrl.originX - ctrl.quotaLength/2}}"
             ng-attr-x2="{{ctrl.originX + ctrl.quotaLength/2}}"
-            ng-attr-y1="{{ctrl.originY + i*ctrl.deltaY}}"
-            ng-attr-y2="{{ctrl.originY + i*ctrl.deltaY}}"
+            ng-attr-y1="{{ctrl.originY + i*ctrl.deltaQuotaY}}"
+            ng-attr-y2="{{ctrl.originY + i*ctrl.deltaQuotaY}}"
             stroke-width="0.5" 
             fill="transparent"
             stroke="black">
         </line>
+
+        <text 
+            ng-repeat="i in [-6, -5, -4, -3, -2, -1, 1, 2, 3, 4, 5, 6]" 
+            ng-attr-text-anchor="middle"
+            ng-attr-x="{{ctrl.originX + ctrl.quotaLength/2 + 10}}"
+            ng-attr-y="{{ctrl.originY + i*ctrl.deltaQuotaY + 5}}"
+            font-size = "13"
+        >{{i}}</text>-->
 
 
 
@@ -88,6 +105,8 @@
     </svg>
 </div>
 
+<br><br>
+<label for="">Show quotas: </label> <input class="show-cuotas" type="checkbox">
 
 <form ng-show="ctrl.config">
     <label for="">width</label>
@@ -118,6 +137,13 @@
         <input type="text" ng-model="point.x" ng-change="ctrl.drawAllPoints();">
         <input type="text" ng-model="point.y" ng-change="ctrl.drawAllPoints();">
         <button ng-click="ctrl.removePoint($index)">x</button><br><br>
+    </div>
+    <br><br>
+    <button ng-click="ctrl.addDiscreteSerie();">Add Discrete Function</button>
+    <div ng-repeat="point in ctrl.discreteSeries track by $index">
+        <label for="">Discrete serie {{$index+1}}</label>
+        <input type="text" ng-model="point.x" ng-change="ctrl.drawAllDiscreteSeries();">
+        <button ng-click="ctrl.removeDiscreteSerie($index)">x</button><br><br>
     </div>
     <br><br>
     <h4>Etiquetas de los ejes</h4>
