@@ -21,8 +21,8 @@ app.component('plotSvg',{
     controller: function($scope){
         this.$onInit = function(){
            //set default values
-           if(!this.width)  this.width = 250;
-           if(!this.height) this.height = 250;
+           if(!this.width)  this.width = 200;
+           if(!this.height) this.height = 200;
            if(!this.minX)   this.minX = -5;
            if(!this.maxX)   this.maxX = 5;
            if(!this.minY)   this.minY = -5;
@@ -37,6 +37,10 @@ app.component('plotSvg',{
            if(!this.points){
                 this.points = [];
            } 
+           if(!this.discretes){
+               this.discretes = [];
+               this.discretes = [ {"x": [-1, 2, 1]} ];
+           }
            if(this.config == undefined) this.config = true;
            this.colorFunction = "blue";
            this.colorPoint    = "red";

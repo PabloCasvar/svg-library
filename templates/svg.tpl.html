@@ -139,12 +139,28 @@
         <button ng-click="ctrl.removePoint($index)">x</button><br><br>
     </div>
     <br><br>
-    <button ng-click="ctrl.addDiscreteSerie();">Add Discrete Function</button>
-    <div ng-repeat="point in ctrl.discreteSeries track by $index">
-        <label for="">Discrete serie {{$index+1}}</label>
-        <input type="text" ng-model="point.x" ng-change="ctrl.drawAllDiscreteSeries();">
-        <button ng-click="ctrl.removeDiscreteSerie($index)">x</button><br><br>
+    <button ng-click="ctrl.addDiscrete();">Add Discrete Function</button>
+    
+    <div ng-repeat="discrete in ctrl.discretes track by $index">
+        <label for="">Discrete function/serie {{$index+1}}</label>                    
+        <input type="text" ng-model="discrete.x"    ng-change="ctrl.drawAllDiscrete();">
+        <label for="">Number of points</label>                    
+        <input type="text" ng-model="discrete.N"    ng-change="ctrl.drawAllDiscrete();">
+        <label for="">starting point</label>                    
+        <input type="text" ng-model="discrete.start"    ng-change="ctrl.drawAllDiscrete();">
+        <label for="">end point</label>                    
+        <input type="text" ng-model="discrete.end"    ng-change="ctrl.drawAllDiscrete();">
+        <label for="">Sampling period/ delta n</label>                    
+        <input type="text" ng-model="discrete.T_s"    ng-change="ctrl.drawAllDiscrete();">
+        <label for="">Sampling frequency</label>                    
+        <input type="text" ng-model="discrete.F_s"    ng-change="ctrl.drawAllDiscrete();">
+        
+        <p>n by sample frequency</p>
+
+        <button ng-click="ctrl.removeDiscrete($index)">x</button>
+        <br><br>
     </div>
+
     <br><br>
     <h4>Etiquetas de los ejes</h4>
     <label for="">Label x axis:</label> <input type="text" ng-model="ctrl.xlabel"><br>
