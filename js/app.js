@@ -50,6 +50,10 @@ app.component('plotSvg',{
            this.deltaQuotaY     = 20;
            this.deltaQuotaX     = 20;
            this.plotFunctions();
+           
+           this.discrete = this.evaluateDiscreteFunction(this.linspace(-5,5,17), 'x');
+           console.log(this.discrete);
+
         };
         this.plotFunctions = function(){
             this.setOrigin();
@@ -208,25 +212,62 @@ app.component('plotSvg',{
         };
         this.getMaxX = function(){
             return this.functionToNumber(this.maxX);
-        }
+        };
         this.getMinX = function(){
             return this.functionToNumber(this.minX);
-        }
+        };
         this.getMaxY = function(){
             return this.functionToNumber(this.maxY);
-        }
+        };
         this.getMinY = function(){
             return this.functionToNumber(this.minY);
-        }
+        };
         this.getResolution = function(){
             return this.functionToNumber(this.resolution);
-        }
+        };
         this.functionToNumber = function(fun){
+            //Evaluates a constant function an retur its value
             type = typeof(fun);
             if(type ==='string')
                 return Number((Function("return " + fun))());
             else if(type === 'number')
                 return fun;
+        };
+        this.inverse = function(num){
+            return 1/num;
+        }
+        //Functions for discrete series/functions
+        this.linspace = function(start, end, N){
+            if(N<=1){
+                return [start, end];
+            }
+            var delta = (end-start)/(N-1);
+            var array = [];
+            for(var i=0 ; i<N; i++){
+                array.push(start+delta*i);
+            }
+            return array;
+        };
+        this.evaluateDiscreteFunction = function(array, func){
+            var stringFunc = "return " + func + ";"
+            var functionX = Function("x", stringFunc);
+
+            discrete = [];
+            var yFun = [];
+
+            //values mapped to svg pixels
+            xVal = null;
+            yVal = null;
+
+            for(var i=0; i<array.length; i++){
+                yFun[i] = functionX(array[i]);
+                
+                xVal = this.realToPixelX(array[i]); 
+                yVal = this.transCoordY(this.realToPixelY(yFun[i]));
+
+                discrete[i] = {'x': xVal, 'y':yVal}
+            }
+            return discrete;
         };
     }, 
     templateUrl: "templates/svg.tpl.html"
