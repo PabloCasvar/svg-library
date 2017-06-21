@@ -15,6 +15,7 @@
         ng-attr-height='{{ctrl.getHeight()}}'
         xmlns="http://www.w3.org/2000/svg"
         style="border: 1px black solid; clear: both">
+
         <!-- X-axis -->
         <path 
             d="M0 {{ctrl.originY}} H {{ctrl.getWidth()}}" 
@@ -24,7 +25,7 @@
         </path>
         <!-- Y-axis -->
         <path 
-            d="M {{ctrl.originX}} 0 V0 {{ctrl.getHeight()}}" 
+            d="M {{ctrl.originX}} 0 V {{ctrl.getHeight()}}" 
             fill="transparent" 
             stroke="black"
             stroke-width="0.5">
@@ -38,8 +39,8 @@
             ng-attr-stroke="{{func.color}}"
             stroke-width="1.3"
         ></path>
-        <!--<text x="20" y="20" fill="black">Hola 1</text>-->
         
+        <!--plot multiple points-->
         <circle
             ng-repeat="point in ctrl.pointsVal"
             ng-attr-cx = "{{point.x}}"
@@ -47,6 +48,24 @@
             ng-attr-r = "2.6"
             ng-attr-fill = "{{point.color}}"
         ></circle>
+
+        <!--plot single discrete serie-->
+        <svg>
+            <circle
+                ng-repeat="point in ctrl.discrete"
+                ng-attr-cx = "{{point.x}}"
+                ng-attr-cy = "{{point.y}}"
+                ng-attr-r = "2.6"
+                ng-attr-fill = "black"
+            ></circle>
+            <path 
+                ng-repeat="point in ctrl.discrete"
+                d="M {{point.x}} {{point.y}} V {{ctrl.originY}}" 
+                fill="transparent" 
+                stroke="black"
+                stroke-width="1">
+            </path>
+        </svg>
 
         <!--cotas verticales-->
         <!--<line
@@ -143,17 +162,17 @@
     
     <div ng-repeat="discrete in ctrl.discretes track by $index">
         <label for="">Discrete function/serie {{$index+1}}</label>                    
-        <input type="text" ng-model="discrete.x"    ng-change="ctrl.drawAllDiscrete();">
+        <input type="text" ng-model="discrete.x"    ng-change="ctrl.drawAllDiscrete();"><br>    
         <label for="">Number of points</label>                    
-        <input type="text" ng-model="discrete.N"    ng-change="ctrl.drawAllDiscrete();">
+        <input type="text" ng-model="discrete.N"    ng-change="ctrl.drawAllDiscrete();"><br>
         <label for="">starting point</label>                    
-        <input type="text" ng-model="discrete.start"    ng-change="ctrl.drawAllDiscrete();">
+        <input type="text" ng-model="discrete.start"    ng-change="ctrl.drawAllDiscrete();"><br>
         <label for="">end point</label>                    
-        <input type="text" ng-model="discrete.end"    ng-change="ctrl.drawAllDiscrete();">
+        <input type="text" ng-model="discrete.end"    ng-change="ctrl.drawAllDiscrete();"><br>
         <label for="">Sampling period/ delta n</label>                    
-        <input type="text" ng-model="discrete.T_s"    ng-change="ctrl.drawAllDiscrete();">
+        <input type="text" ng-model="discrete.T_s"    ng-change="ctrl.drawAllDiscrete();"><br>
         <label for="">Sampling frequency</label>                    
-        <input type="text" ng-model="discrete.F_s"    ng-change="ctrl.drawAllDiscrete();">
+        <input type="text" ng-model="discrete.F_s"    ng-change="ctrl.drawAllDiscrete();"><br>
         
         <p>n by sample frequency</p>
 
