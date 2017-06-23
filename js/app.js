@@ -13,6 +13,7 @@ app.component('plotSvg',{
         resolution: "@",
         functions: "=?",
         points: "=?",
+        discretes: "=?",
         config: "=?", 
         xlabel: "@",
         ylabel: "@"
@@ -37,22 +38,28 @@ app.component('plotSvg',{
            if(!this.points){
                 this.points = [];
            } 
+           console.log(this.discretes)
            if(!this.discretes){
                this.discretes = [];
-               this.discretes = [ {"x": [-1, 2, 1]} ];
+               this.discretes = [ {
+                   "f": "Math.cos(n)",
+                   "N": 15,
+                   "start": -5,
+                   "end": 5,
+                   "Ts": null,
+                   "Fs": null
+                    } ];
            }
            if(this.config == undefined) this.config = true;
            this.colorFunction = "blue";
            this.colorPoint    = "red";
+           this.colorDiscrete = "black";
            this.quotaLength   = 9;
            this.minDeltaQuotas = 30;
            //todo: assign value dynamically
            this.deltaQuotaY     = 20;
            this.deltaQuotaX     = 20;
            this.plotFunctions();
-           
-           this.discrete = this.evaluateDiscreteFunction(this.linspace(-5,5,17), 'x');
-           console.log(this.discrete);
 
         };
         this.plotFunctions = function(){
@@ -60,6 +67,7 @@ app.component('plotSvg',{
             this.setTransformationParameters();
             this.drawAllPoints();
             this.drawAllFunctions();
+            this.drawAllDiscretes();
             this.setDeltaQuotas();
         };
         this.setDeltaQuotas = function(){
@@ -248,9 +256,33 @@ app.component('plotSvg',{
             }
             return array;
         };
+        this.drawAllDiscretes = function(){
+            var array;
+            var discrete;
+            for(var i=0; i<this.discretes.length; i++){
+                discrete = this.discretes[i];
+
+                if(discrete.hasOwnProperty("end")){
+                    discrete.Ts = (discrete.end - discrete.start)/(discrete.N - 1);
+                    discrete.Fs = 1/discrete.Ts;
+                }else if(discrete.hasOwnProperty("Ts")){
+                    discrete.Fs = 1/discrete.Ts;
+                    discrete.end = discrete.Ts*(discrete.N -1) + discrete.start;
+                }else if(discrete.hasOwnProperty("Fs")){
+                    discrete.Ts = 1/discrete.Fs;
+                    discrete.end = (1/discrete.Fs)*(discrete.N -1) + discrete.start;
+                }
+                array = this.linspace(discrete.start, discrete.end, discrete.N);
+                points = this.evaluateDiscreteFunction(array, discrete.f);   
+                this.setColor(discrete, this.colorDiscrete);
+                
+                discrete.points = points;
+                console.log(discrete);
+            }
+        };
         this.evaluateDiscreteFunction = function(array, func){
             var stringFunc = "return " + func + ";"
-            var functionX = Function("x", stringFunc);
+            var functionX = Function("n", stringFunc);
 
             discrete = [];
             var yFun = [];

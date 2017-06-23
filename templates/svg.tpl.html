@@ -39,7 +39,25 @@
             ng-attr-stroke="{{func.color}}"
             stroke-width="1.3"
         ></path>
-        
+
+        <!--plot single discrete serie-->
+        <svg ng-repeat="discrete in ctrl.discretes">
+            <circle
+                ng-repeat="point in discrete.points"
+                ng-attr-cx = "{{point.x}}"
+                ng-attr-cy = "{{point.y}}"
+                ng-attr-r = "2.6"
+                ng-attr-fill = "{{discrete.color}}"                
+            ></circle>
+            <path 
+                ng-repeat="point in discrete.points"
+                d="M {{point.x}} {{point.y}} V {{ctrl.originY}}" 
+                fill="transparent" 
+                stroke="{{discrete.color}}"
+                stroke-width="0.6">
+            </path>
+        </svg>
+
         <!--plot multiple points-->
         <circle
             ng-repeat="point in ctrl.pointsVal"
@@ -48,24 +66,6 @@
             ng-attr-r = "2.6"
             ng-attr-fill = "{{point.color}}"
         ></circle>
-
-        <!--plot single discrete serie-->
-        <svg>
-            <circle
-                ng-repeat="point in ctrl.discrete"
-                ng-attr-cx = "{{point.x}}"
-                ng-attr-cy = "{{point.y}}"
-                ng-attr-r = "2.6"
-                ng-attr-fill = "black"
-            ></circle>
-            <path 
-                ng-repeat="point in ctrl.discrete"
-                d="M {{point.x}} {{point.y}} V {{ctrl.originY}}" 
-                fill="transparent" 
-                stroke="black"
-                stroke-width="1">
-            </path>
-        </svg>
 
         <!--cotas verticales-->
         <!--<line
