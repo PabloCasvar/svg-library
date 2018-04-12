@@ -162,17 +162,17 @@
     
     <div ng-repeat="discrete in ctrl.discretes track by $index">
         <label for="">Discrete function/serie {{$index+1}}</label>                    
-        <input type="text" ng-model="discrete.x"    ng-change="ctrl.drawAllDiscrete();"><br>    
+        <input type="text" ng-model="discrete.f"    ng-change="ctrl.drawAllDiscretes();"><br>    
         <label for="">Number of points</label>                    
-        <input type="text" ng-model="discrete.N"    ng-change="ctrl.drawAllDiscrete();"><br>
+        <input type="text" ng-model="discrete.N"    ng-change="ctrl.drawAllDiscretes();"><br>
         <label for="">starting point</label>                    
-        <input type="text" ng-model="discrete.start"    ng-change="ctrl.drawAllDiscrete();"><br>
+        <input type="text" ng-model="discrete.start"    ng-change="ctrl.drawAllDiscretes();"><br>
         <label for="">end point</label>                    
-        <input type="text" ng-model="discrete.end"    ng-change="ctrl.drawAllDiscrete();"><br>
+        <input type="text" ng-model="discrete.end"    ng-change="ctrl.drawAllDiscretes();"><br>
         <label for="">Sampling period/ delta n</label>                    
-        <input type="text" ng-model="discrete.T_s"    ng-change="ctrl.drawAllDiscrete();"><br>
+        <input type="text" ng-model="discrete.Ts"    ng-change="ctrl.drawAllDiscretes();"><br>
         <label for="">Sampling frequency</label>                    
-        <input type="text" ng-model="discrete.F_s"    ng-change="ctrl.drawAllDiscrete();"><br>
+        <input type="text" ng-model="discrete.Fs"    ng-change="ctrl.drawAllDiscretes();"><br>
         
         <p>n by sample frequency</p>
 

@@ -13,15 +13,17 @@ app.component('plotSvg',{
         resolution: "@",
         functions: "=?",
         points: "=?",
-        discretes: "=?",
+        discretesIn: "=?",
         config: "=?", 
         xlabel: "@",
         ylabel: "@"
     },
     controllerAs: 'ctrl',
     controller: function($scope){
+        
         this.$onInit = function(){
            //set default values
+           this.discretes = angular.copy(this.discretesIn)
            if(!this.width)  this.width = 200;
            if(!this.height) this.height = 200;
            if(!this.minX)   this.minX = -5;
@@ -41,14 +43,14 @@ app.component('plotSvg',{
            console.log(this.discretes)
            if(!this.discretes){
                this.discretes = [];
-               this.discretes = [ {
+               this.discretes.push({
                    "f": "Math.cos(n)",
-                   "N": 15,
+                   "N": 10,
                    "start": -5,
                    "end": 5,
-                   "Ts": null,
+                   "Ts": 1,
                    "Fs": null
-                    } ];
+                    });
            }
            if(this.config == undefined) this.config = true;
            this.colorFunction = "blue";
@@ -60,8 +62,8 @@ app.component('plotSvg',{
            this.deltaQuotaY     = 20;
            this.deltaQuotaX     = 20;
            this.plotFunctions();
-
         };
+
         this.plotFunctions = function(){
             this.setOrigin();
             this.setTransformationParameters();
@@ -156,6 +158,16 @@ app.component('plotSvg',{
         this.addFunction = function(){
             this.functions.push({"def":""});
         };
+        this.addDiscrete = function(){
+            this.discretes.push({
+                "f": "",
+                "N": 15,
+                "start": -5,
+                "end": 5,
+                "Ts": null,
+                "Fs": null
+            });
+        }
         this.removeFunction = function(index){
             this.functions.splice(index, 1);
             this.paths.splice(index, 1);
@@ -259,6 +271,7 @@ app.component('plotSvg',{
         this.drawAllDiscretes = function(){
             var array;
             var discrete;
+            var discretes = [];
             for(var i=0; i<this.discretes.length; i++){
                 discrete = this.discretes[i];
 
@@ -278,8 +291,11 @@ app.component('plotSvg',{
                 
                 discrete.points = points;
                 console.log(discrete);
+                discretes.push(discrete);
             }
+            this.discretes = angular.copy(discretes);
         };
+
         this.evaluateDiscreteFunction = function(array, func){
             var stringFunc = "return " + func + ";"
             var functionX = Function("n", stringFunc);
