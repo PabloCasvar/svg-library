@@ -23,7 +23,8 @@ app.component('plotSvg',{
         
         this.$onInit = function(){
            //set default values
-           this.discretes = angular.copy(this.discretesIn)
+           this.discretes = angular.copy(this.discretesIn);
+           this.paths     = angular.copy(this.functions);
            if(!this.width)  this.width = 200;
            if(!this.height) this.height = 200;
            if(!this.minX)   this.minX = -5;
@@ -35,7 +36,7 @@ app.component('plotSvg',{
            if(!this.resolution) this.resolution = 100;
            if(!this.functions){
                 this.functions = [];
-                this.functions[0] = {"def":"Math.cos(x)"};
+                this.functions.push({"def":"Math.cos(x)"});
            }
            if(!this.points){
                 this.points = [];
@@ -156,7 +157,7 @@ app.component('plotSvg',{
             return this.m_y*yReal + this.b_y
         };
         this.addFunction = function(){
-            this.functions.push({"def":""});
+            this.paths.push({"def":""});
         };
         this.addDiscrete = function(){
             this.discretes.push({
@@ -169,7 +170,6 @@ app.component('plotSvg',{
             });
         }
         this.removeFunction = function(index){
-            this.functions.splice(index, 1);
             this.paths.splice(index, 1);
         };
         this.addPoint = function(){
@@ -179,15 +179,16 @@ app.component('plotSvg',{
             this.points.splice(index, 1);
             this.drawAllPoints();
         };
+        this.removeDiscrete = function(index){
+            this.discretes.splice(index, 1);
+        };
         this.drawAllFunctions = function(){
-            this.paths = [];
-            for(var i=0; i<this.functions.length; i++){
-                values = this.evaluateThisFunctions(this.functions[i].def);
+            for(var i=0; i<this.paths.length; i++){
+                values = this.evaluateThisFunctions(this.paths[i].def);
                 path   = this.createPath(values.xVal, values.yVal);
-                this.setColor(this.functions[i], this.colorFunction);
-                this.functions[i].values = values;
-                this.functions[i].path   = path;
-                this.paths[i] = this.functions[i];
+                this.setColor(this.paths[i], this.colorFunction);
+                this.paths[i].values = values;
+                this.paths[i].path   = path;
             }
         };
         this.evaluateThisFunctions = function(func){
@@ -246,7 +247,7 @@ app.component('plotSvg',{
             return this.functionToNumber(this.resolution);
         };
         this.functionToNumber = function(fun){
-            //Evaluates a constant function an retur its value
+            //Evaluates a constant function an return its value
             type = typeof(fun);
             if(type ==='string')
                 return Number((Function("return " + fun))());

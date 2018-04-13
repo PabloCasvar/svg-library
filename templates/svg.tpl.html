@@ -144,7 +144,7 @@
     <input type="text" ng-model="ctrl.resolution" ng-change="ctrl.plotFunctions();"><br>
     <br><br>
     <button ng-click="ctrl.addFunction();">Add function</button>
-    <div ng-repeat="func in ctrl.functions track by $index">
+    <div ng-repeat="func in ctrl.paths track by $index">
         <label for="">Function {{$index+1}}</label>
         <input type="text" ng-model="func.def" ng-change="ctrl.drawAllFunctions();">
         <button ng-click="ctrl.removeFunction($index)">x</button><br><br>
@@ -162,14 +162,14 @@
     
     <div ng-repeat="discrete in ctrl.discretes track by $index">
         <label for="">Discrete function/serie {{$index+1}}</label>                    
-        <input type="text" ng-model="discrete.f"    ng-change="ctrl.drawAllDiscretes();"><br>    
+        <input type="text" ng-model="discrete.f"     ng-change="ctrl.drawAllDiscretes();"><br>    
         <label for="">Number of points</label>                    
-        <input type="text" ng-model="discrete.N"    ng-change="ctrl.drawAllDiscretes();"><br>
-        <label for="">starting point</label>                    
-        <input type="text" ng-model="discrete.start"    ng-change="ctrl.drawAllDiscretes();"><br>
+        <input type="text" ng-model="discrete.N"     ng-change="ctrl.drawAllDiscretes();"><br>
+        <label for="">starting point</label>                   
+        <input type="text" ng-model="discrete.start" ng-change="ctrl.drawAllDiscretes();"><br>
         <label for="">end point</label>  
         <!-- todo: change callback functions when end, Ts or Fs are changed -->                  
-        <input type="text" ng-model="discrete.end"    ng-change="ctrl.drawAllDiscretes();"><br>
+        <input type="text" ng-model="discrete.end"   ng-change="ctrl.drawAllDiscretes();"><br>
         <label for="">Sampling period/ delta n</label>                    
         <input type="text" ng-model="discrete.Ts"    ng-change="ctrl.drawAllDiscretes();"><br>
         <label for="">Sampling frequency</label>                    
