@@ -276,16 +276,6 @@ app.component('plotSvg',{
             for(var i=0; i<this.discretes.length; i++){
                 discrete = this.discretes[i];
 
-                if(discrete.hasOwnProperty("end")){
-                    discrete.Ts = (discrete.end - discrete.start)/(discrete.N - 1);
-                    discrete.Fs = 1/discrete.Ts;
-                }else if(discrete.hasOwnProperty("Ts")){
-                    discrete.Fs = 1/discrete.Ts;
-                    discrete.end = discrete.Ts*(discrete.N -1) + discrete.start;
-                }else if(discrete.hasOwnProperty("Fs")){
-                    discrete.Ts = 1/discrete.Fs;
-                    discrete.end = (1/discrete.Fs)*(discrete.N -1) + discrete.start;
-                }
                 array = this.linspace(discrete.start, discrete.end, discrete.N);
                 points = this.evaluateDiscreteFunction(array, discrete.f);   
                 this.setColor(discrete, this.colorDiscrete);
@@ -296,6 +286,25 @@ app.component('plotSvg',{
             }
             this.discretes = angular.copy(discretes);
         };
+
+        this.calcDiscreteVariables = (i, parameter)=>{
+            var discrete = this.discretes[i];
+            switch (parameter){
+                case 'end':
+                    discrete.Ts = (discrete.end - discrete.start)/(discrete.N - 1);
+                    discrete.Fs = 1/discrete.Ts;
+                    break;
+                case 'Ts':
+                    discrete.Fs = 1/discrete.Ts;
+                    discrete.end = discrete.Ts*(discrete.N -1) + discrete.start;
+                    break;
+                case 'Fs':
+                    discrete.Ts = 1/discrete.Fs;
+                    discrete.end = (1/discrete.Fs)*(discrete.N -1) + discrete.start;   
+                    break;
+            }
+            this.drawAllDiscretes();
+        }
 
         this.evaluateDiscreteFunction = function(array, func){
             var stringFunc = "return " + func + ";"

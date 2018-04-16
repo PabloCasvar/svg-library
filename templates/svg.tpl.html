@@ -1,4 +1,4 @@
-<div  style="margin-bottom: 15px">
+<div  style="margin-bottom: 15px; max-width: 90%">
     <svg version="1.1" 
         ng-attr-width='{{20}}'
         ng-attr-height='{{ctrl.getHeight()}}'
@@ -168,12 +168,11 @@
         <label for="">starting point</label>                   
         <input type="text" ng-model="discrete.start" ng-change="ctrl.drawAllDiscretes();"><br>
         <label for="">end point</label>  
-        <!-- todo: change callback functions when end, Ts or Fs are changed -->                  
-        <input type="text" ng-model="discrete.end"   ng-change="ctrl.drawAllDiscretes();"><br>
+        <input type="text" ng-model="discrete.end"   ng-change="ctrl.calcDiscreteVariables($index, 'end');"><br>
         <label for="">Sampling period/ delta n</label>                    
-        <input type="text" ng-model="discrete.Ts"    ng-change="ctrl.drawAllDiscretes();"><br>
+        <input type="text" ng-model="discrete.Ts"    ng-change="ctrl.calcDiscreteVariables($index, 'Ts');"><br>
         <label for="">Sampling frequency</label>                    
-        <input type="text" ng-model="discrete.Fs"    ng-change="ctrl.drawAllDiscretes();"><br>
+        <input type="text" ng-model="discrete.Fs"    ng-change="ctrl.calcDiscreteVariables($index, 'Fs');"><br>
         
         <p>n by sample frequency</p>
 
